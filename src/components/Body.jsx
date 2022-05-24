@@ -15,11 +15,12 @@ function Example() {
   const [value, setValue] = useState("")
   
   useEffect(() => {
+    console.log(`from useeffect ${city}`)
     dispatch(getWeather(city))
   }, [city]);
 
-  const location = useSelector((state) => state.location.name)
-  console.log(location)
+  const reduxState = useSelector((state) => state)
+  console.log(reduxState)
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -44,13 +45,15 @@ function Example() {
   
   const handleCheck = (e) => {
     e.preventDefault();
+    console.log(`before ${city}`)
     setCity(value)
+    console.log(`after ${city}`)
   }
 
   return (
     <div>
-      <h1>{location}</h1>
-      <h1>Enter a city name!</h1>
+      <h1>{reduxState.weather.weather.location.name}</h1>
+      <h4>Enter a city name!</h4>
       <form onSubmit={handleCheck}>
         <input type="text" onChange={handleCityChange}/>
         <button type="submit" value="Check the weather">Check Weather</button>
