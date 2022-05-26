@@ -11,13 +11,16 @@ function Example() {
   //   temperature: "",
   //   condition: ""
   // })
-  const [city, setCity] = useState("New York")
+  const [cities, setCities] = useState(["New York", "Los Angeles"])
   const [value, setValue] = useState("")
   
   useEffect(() => {
-    console.log(`from useeffect ${city}`)
-    dispatch(getWeather(city))
-  }, [city]);
+    console.log(`from useeffect ${cities}`)
+    for (const city of cities) {
+      console.log(`about to be processed ${city}`)
+      dispatch(getWeather(city))
+    }
+  }, [cities, dispatch]);
 
   const reduxState = useSelector((state) => state)
   console.log(reduxState)
@@ -45,14 +48,16 @@ function Example() {
   
   const handleCheck = (e) => {
     e.preventDefault();
-    console.log(`before ${city}`)
-    setCity(value)
-    console.log(`after ${city}`)
+    console.log(`before ${cities}`)
+    let newCities = () => cities.push(value) 
+    setCities(newCities)
+    console.log(`after ${cities}`)
   }
 
   return (
     <div>
-      <h1>{reduxState.weather.weather.location.name}</h1>
+      <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location ? reduxState.weather.weatherData.location.name : "aa" : "bb" }</h1>
+      {/* <h1>{reduxState ? "something" : "undefined"}</h1> */}
       <h4>Enter a city name!</h4>
       <form onSubmit={handleCheck}>
         <input type="text" onChange={handleCityChange}/>

@@ -6,22 +6,22 @@ export const getWeather = (city) => ({
     city
 });
 
-export const setWeather = (weather) => ({
+export const setWeather = (weatherData) => ({
     type: SET_WEATHER,
-    weather,
+    weatherData,
 });
 
 
 const initialState = {
-    weather: undefined
+    weatherData: undefined
 };
 
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case SET_WEATHER:
-            const { weather } = action;
-            return { ...state, weather };
+            const { weatherData } = action;
+            return { ...state, weatherData };
         default:
             return state;
     }
