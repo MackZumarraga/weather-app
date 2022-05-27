@@ -13,15 +13,16 @@ export const setWeather = (weatherData) => ({
 
 
 const initialState = {
-    weatherData: undefined
+    weatherData: []
 };
 
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case SET_WEATHER:
-            const { weatherData } = action;
-            return { ...state, weatherData };
+            let { weatherData } = action;
+            weatherData = [...state.weatherData, weatherData]
+            return { weatherData };
         default:
             return state;
     }
