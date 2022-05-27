@@ -4,8 +4,8 @@ import { getWeather } from '../redux/ducks/weather';
 // import axios from 'axios';
 
 function Example() {
-  const dispatch = useDispatch();  
-  
+  const dispatch = useDispatch();
+
   // const [response, setResponse] = useState({
   //   location: "",
   //   temperature: "",
@@ -13,12 +13,20 @@ function Example() {
   // })
   const [cities, setCities] = useState(["New York", "Los Angeles"])
   const [value, setValue] = useState("")
-  
+
   useEffect(() => {
     console.log(`from useeffect ${cities}`)
+    const stateWeatherData = reduxState.weather.weatherData;
+    const citiesState = [];
+    for (let data of stateWeatherData){
+      citiesState.push(data.location.name);
+    }
     for (const city of cities) {
-      console.log(`about to be processed ${city}`)
-      dispatch(getWeather(city))
+
+      if (!citiesState.includes(city)){
+        console.log(`about to be processed ${city}`)
+        dispatch(getWeather(city))
+      }
     }
   }, [cities, dispatch]);
 
@@ -37,37 +45,38 @@ function Example() {
   //     setResponse(newResp)
   //   }
   //   fetchData();
-    
+
   // }, [city]);
-  
-  
-  
+
+
+
   const handleCityChange = (event) => {
-      event.persist();
-      setValue(event.target.value)
+    event.persist();
+    setValue(event.target.value)
   }
-  
+
   const handleCheck = (e) => {
     e.preventDefault();
     console.log(`before ${cities}`)
-    let newCities = () => cities.push(value) 
-    setCities(newCities)
+    setCities(cities.concat(value))
     console.log(`after ${cities}`)
   }
 
   return (
     <div>
       {/* <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location ? reduxState.weather.weatherData.location.name : "aa" : "bb" }</h1> */}
-      <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location.name : "" }</h1>
+      {reduxState.weather.weatherData.length > 0 ? reduxState.weather.weatherData.map(
+        (location, index) => (
+          <h2 key={index}>{location.location.name}</h2>)) : ""}
       {/* <h1>{reduxState ? "something" : "undefined"}</h1> */}
       <h4>Enter a city name!</h4>
       <form onSubmit={handleCheck}>
-        <input type="text" onChange={handleCityChange}/>
+        <input type="text" onChange={handleCityChange} />
         <button type="submit" value="Check the weather">Check Weather</button>
       </form>
     </div>
   )
-    
+
 
   // if (city === "") {
   //     return (
@@ -90,7 +99,7 @@ function Example() {
   //           <input type="text" onChange={handleCityChange}/>
   //           <button type="submit" value="Check the weather">Check Weather</button>
   //         </form>
-          
+
   //         <h2>
   //             The weather in {response.location} is {response.condition} with a temperature of {response.temperature} Fahrenheit!
   //         </h2>
