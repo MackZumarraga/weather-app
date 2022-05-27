@@ -66,8 +66,8 @@ function Example() {
     <div>
       {/* <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location ? reduxState.weather.weatherData.location.name : "aa" : "bb" }</h1> */}
       {reduxState.weather.weatherData.length > 0 ? reduxState.weather.weatherData.map(
-        (location, index) => (
-          <h2 key={index}>{location.location.name}</h2>)) : ""}
+        (data, index) => (
+          <h2 key={index}>{data.location.name}, Temperature: {data.current.condition.text}</h2>)) : ""}
       {/* <h1>{reduxState ? "something" : "undefined"}</h1> */}
       <h4>Enter a city name!</h4>
       <form onSubmit={handleCheck}>
