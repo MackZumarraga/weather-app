@@ -23,7 +23,8 @@ function Example() {
   }, [cities, dispatch]);
 
   const reduxState = useSelector((state) => state)
-  console.log(reduxState)
+  console.log(reduxState.weather.weatherData)
+  // console.log(`reduxState ${Object.keys(reduxState.weather.weatherData)}`)
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -56,7 +57,8 @@ function Example() {
 
   return (
     <div>
-      <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location ? reduxState.weather.weatherData.location.name : "aa" : "bb" }</h1>
+      {/* <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location ? reduxState.weather.weatherData.location.name : "aa" : "bb" }</h1> */}
+      <h1>{reduxState.weather.weatherData ? reduxState.weather.weatherData.location.name : "" }</h1>
       {/* <h1>{reduxState ? "something" : "undefined"}</h1> */}
       <h4>Enter a city name!</h4>
       <form onSubmit={handleCheck}>
