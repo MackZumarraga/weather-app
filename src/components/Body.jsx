@@ -14,10 +14,15 @@ function Example() {
   const [cities, setCities] = useState(["New York", "Los Angeles"])
   const [value, setValue] = useState("")
 
+  const reduxState = useSelector((state) => state)
+  let stateLocations = reduxState.weather.weatherData.map((obj) => obj.location.name)
+
   useEffect(() => {
     console.log(`from useeffect ${cities}`)
     const stateWeatherData = reduxState.weather.weatherData;
     const citiesState = [];
+ 
+ 
     for (let data of stateWeatherData){
       citiesState.push(data.location.name);
     }
@@ -25,13 +30,13 @@ function Example() {
 
       if (!citiesState.includes(city)){
         console.log(`about to be processed ${city}`)
-        dispatch(getWeather(city))
+        dispatch(getWeather(city, stateLocations))
       }
     }
   }, [cities, dispatch]);
 
-  const reduxState = useSelector((state) => state)
-  console.log(reduxState.weather.weatherData)
+  // console.log('state', reduxState.weather.weatherData)
+  console.log('stateLocations', stateLocations)
   // console.log(`reduxState ${Object.keys(reduxState.weather.weatherData)}`)
 
   // useEffect(() => {
@@ -58,8 +63,11 @@ function Example() {
   const handleCheck = (e) => {
     e.preventDefault();
     console.log(`before ${cities}`)
-    setCities(cities.concat(value))
-    console.log(`after ${cities}`)
+    if (!cities.includes(value)) {
+      setCities(cities.concat(value))
+      console.log(`after in if ${cities}`)  
+    }
+    console.log(`after non if ${cities}`)
   }
 
   return (

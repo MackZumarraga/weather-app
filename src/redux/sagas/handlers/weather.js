@@ -8,7 +8,10 @@ export function* handleGetWeather(action) {
         const response = yield call(requestGetWeather, action.city);
         const { data } = response;
         console.log(`response ${data.location.name}`)
-        yield put(setWeather(data))
+        console.log('statelocations in handler', action.stateLocations)
+        if (!action.stateLocations.includes(data.location.name)) {
+            yield put(setWeather(data))
+        }
     } catch (error) {
         console.log(error);
     }

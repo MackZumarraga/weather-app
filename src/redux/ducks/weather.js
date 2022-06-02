@@ -1,9 +1,10 @@
 export const GET_WEATHER = "GET_WEATHER";
 export const SET_WEATHER = "SET_WEATHER";
 
-export const getWeather = (city) => ({
+export const getWeather = (city, stateLocations) => ({
     type: GET_WEATHER,
-    city
+    city,
+    stateLocations
 });
 
 export const setWeather = (weatherData) => ({
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case SET_WEATHER:
             let { weatherData } = action;
+            console.log('reducer', weatherData.location.name)
             weatherData = [...state.weatherData, weatherData]
             return { weatherData };
         default:
